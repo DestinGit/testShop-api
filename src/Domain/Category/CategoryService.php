@@ -14,6 +14,6 @@ class CategoryService extends AppService
 
 	public function findAll()
 	{
-		// TODO: Implement findAll() method.
+		return Category::all();
 	}
 }

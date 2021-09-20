@@ -1,14 +1,16 @@
 <?php
 
 use App\Controllers\Auth\AuthController;
+use App\Controllers\Category\CategoryController;
 use App\Controllers\User\UserController;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 use Tuupola\Middleware\JwtAuthentication;
 
 return function (App $app) {
-	$app->post('/auth', [AuthController::class, 'signIn']);
-	$app->post('/signup', [AuthController::class, 'signUp']);
+	$app->post('/auth/login', [AuthController::class, 'signIn']);
+	$app->post('/auth/signup', [AuthController::class, 'signUp']);
+	$app->get('/categories', [CategoryController::class, 'getAll']);
 
 	$app->group('/user', function (RouteCollectorProxy $group) {
 		$group->get('/{id:[0-9]+}', [UserController::class, 'get']);
