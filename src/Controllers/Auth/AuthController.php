@@ -49,7 +49,8 @@ class AuthController
 
 		$user = $this->service->create($data);
 
-		(new AuthService())->attempt($data['email'], $user->password);
+		$this->service->attempt($data['email'], $user->password);
+//		(new AuthService())->attempt($data['email'], $user->password);
 
 		$response->getBody()->write(json_encode([
 			'success' => !empty($user)

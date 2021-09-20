@@ -45,7 +45,8 @@ class AuthService
 		]);
 
 		$newPassword = $user->id . md5($user->password);
-		return User::update(['password' => $newPassword]);
+		User::update(['password' => $newPassword]);
+		return $user;
 	}
 
 	public function logout()
