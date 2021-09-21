@@ -12,6 +12,11 @@ class CategoryService extends AppService
 		// TODO: Implement find() method.
 	}
 
+	public function findOnlyForPublic()
+	{
+		return Category::where('visible_public', true);
+	}
+
 	public function findAll()
 	{
 		return Category::all();
