@@ -3,6 +3,9 @@
 namespace App\Controllers\Auth;
 
 use App\Domain\Auth\AuthService;
+use App\Exceptions\WrongDataException;
+use App\Validation\Validator;
+use Respect\Validation\Validator as v;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -12,10 +15,12 @@ class AuthController
 	 * @var AuthService
 	 */
 	protected AuthService $service;
+	protected Validator $validator;
 
-	public function __construct(AuthService $service)
+	public function __construct(AuthService $service, Validator $validator)
 	{
 		$this->service = $service;
+		$this->validator = $validator;
 	}
 
 	public function signIn(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -25,7 +30,9 @@ class AuthController
 
 		// Collect input from the HTTP request
 		$data = (array)$request->getParsedBody();
-
+//		$this->validator->validate($data, [
+//			'email' => v::notEmpty()->noWhitespace()
+//		]);
 		$auth = $this->service->attempt($data['email'], 'bonjour');
 
 		if (!$auth) {
@@ -50,7 +57,6 @@ class AuthController
 		$user = $this->service->create($data);
 
 		$this->service->attempt($data['email'], $user->password);
-//		(new AuthService())->attempt($data['email'], $user->password);
 
 		$response->getBody()->write(json_encode([
 			'success' => !empty($user)

@@ -2,10 +2,10 @@
 
 namespace App\Controllers\User;
 
-use App\Domain\User\User;
 use App\Domain\User\UserService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 
 class UserController
 {
@@ -25,6 +25,7 @@ class UserController
 
 	public function get(ServerRequestInterface $request, ResponseInterface $response, $params): ResponseInterface
 	{
+
 		$user = $this->service->find($params['id']);
 		$response->getBody()->write(json_encode(['success' => true, 'data'=>$user]));
 

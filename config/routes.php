@@ -3,13 +3,14 @@
 use App\Controllers\Auth\AuthController;
 use App\Controllers\Category\CategoryController;
 use App\Controllers\User\UserController;
+use App\Middleware\ValidationErrorsMiddleware;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 use Tuupola\Middleware\JwtAuthentication;
 
 return function (App $app) {
-	$app->post('/auth/login', [AuthController::class, 'signIn']);
-	$app->post('/auth/signup', [AuthController::class, 'signUp']);
+	$app->post('/auth/login', [AuthController::class, 'signIn'])->add(new ValidationErrorsMiddleware());
+	$app->post('/auth/signup', [AuthController::class, 'signUp'])->add(new ValidationErrorsMiddleware());
 	$app->get('/categories', [CategoryController::class, 'getAll']);
 
 	$app->group('/user', function (RouteCollectorProxy $group) {
