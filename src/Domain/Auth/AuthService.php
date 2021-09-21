@@ -51,7 +51,7 @@ class AuthService
 		]);
 
 //		$newPassword = $user->id . md5($data['password']);
-		$newPassword = $user->id . md5('bonjour');
+		$newPassword =  md5($user->id . 'bonjour');
 		User::find($user->id)->update(['password' => $newPassword]);
 		return $user;
 	}

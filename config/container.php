@@ -9,20 +9,20 @@ use Slim\Factory\AppFactory;
 use Slim\Middleware\ErrorMiddleware;
 use Tuupola\Middleware\JwtAuthentication;
 
-//$capsule = new Manager();
-//$capsule->addConnection([
-//	'driver' 	=> 'sqlite',
-//	'database' 	=> __DIR__ . '/../database/shopDB.sqlite',
-//	'prefix'	=> ''
-//]);
-//$capsule->setAsGlobal();
-//$capsule->bootEloquent();
-//
-//
-//\Illuminate\Database\Capsule\Manager::schema()->drop('users');
-//\Illuminate\Database\Capsule\Manager::schema()->drop('products');
-//\Illuminate\Database\Capsule\Manager::schema()->drop('categories');
-//\Illuminate\Database\Capsule\Manager::schema()->drop('baskets');
+$capsule = new Manager();
+$capsule->addConnection([
+	'driver' 	=> 'sqlite',
+	'database' 	=> __DIR__ . '/../database/shopDB.sqlite',
+	'prefix'	=> ''
+]);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+
+\Illuminate\Database\Capsule\Manager::schema()->drop('users');
+\Illuminate\Database\Capsule\Manager::schema()->drop('products');
+\Illuminate\Database\Capsule\Manager::schema()->drop('categories');
+\Illuminate\Database\Capsule\Manager::schema()->drop('baskets');
 
 return [
 		'settings' => function() {
