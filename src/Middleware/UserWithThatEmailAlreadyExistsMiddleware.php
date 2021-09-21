@@ -2,32 +2,22 @@
 
 namespace App\Middleware;
 
-use App\Validation\Validator;
+use App\Domain\Auth\AuthService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as Handle;
-use Respect\Validation\Validator as v;
 use Slim\Psr7\Response;
 
-class ValidationErrorsMiddleware
+class UserWithThatEmailAlreadyExistsMiddleware
 {
 	public function __invoke(Request $request, Handle $handle)
 	{
-		$validator = new Validator();
-
 		// Collect input from the HTTP request
 		$data = (array)$request->getParsedBody();
-
-		$validate = $validator->validate($data, [
-			'name' => v::notEmpty(),
-			'email' => v::noWhitespace()->notEmpty(),
-			'password' => v::noWhitespace()->notEmpty()
-		]);
-
-		if ($validate->failed()) {
+		if ((new AuthService())->exist($data['email'])) {
 			$response = new Response();
 			$response->getBody()->write(json_encode([
 				'success' => false,
-				'error' => $validate->getErrors()
+				'error' => "User with email : '{$data['email']}' already exist"
 			]));
 			return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
 		}

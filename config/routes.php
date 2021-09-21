@@ -10,7 +10,9 @@ use Tuupola\Middleware\JwtAuthentication;
 
 return function (App $app) {
 	$app->post('/auth/login', [AuthController::class, 'signIn'])->add(new ValidationErrorsMiddleware());
-	$app->post('/auth/signup', [AuthController::class, 'signUp'])->add(new ValidationErrorsMiddleware());
+	$app->post('/auth/signup', [AuthController::class, 'signUp'])
+		->add(new \App\Middleware\UserWithThatEmailAlreadyExistsMiddleware())
+		->add(new ValidationErrorsMiddleware());
 	$app->get('/categories', [CategoryController::class, 'getAll']);
 
 	$app->group('/user', function (RouteCollectorProxy $group) {

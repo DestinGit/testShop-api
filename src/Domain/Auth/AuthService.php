@@ -36,6 +36,12 @@ class AuthService
 		}
 	}
 
+	public function exist($email): bool
+	{
+		$userExist = User::where('email', $email)->first();
+		return !empty($userExist);
+	}
+
 	public function create(array $data)
 	{
 		$user = User::create([
