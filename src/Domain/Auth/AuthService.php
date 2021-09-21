@@ -68,7 +68,7 @@ class AuthService
 	public function getToken(): string
 	{
 		$now = new DateTime();
-		$future = new DateTime("now +2 hours");
+		$future = new DateTime("now +10 hours");
 //		$jti = Base62::encode(random_bytes(16));
 		$jti = (new Base62())->encode(random_bytes(16));
 
