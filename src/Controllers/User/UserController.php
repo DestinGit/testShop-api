@@ -25,7 +25,6 @@ class UserController
 
 	public function get(ServerRequestInterface $request, ResponseInterface $response, $params): ResponseInterface
 	{
-
 		$user = $this->service->find($params['id']);
 		$response->getBody()->write(json_encode(['success' => true, 'data'=>$user]));
 

@@ -68,7 +68,7 @@ class AuthService
 	public function getToken(): string
 	{
 		$now = new DateTime();
-		$future = new DateTime("now +10 hours");
+		$future = new DateTime("now +2 hours");
 //		$jti = Base62::encode(random_bytes(16));
 		$jti = (new Base62())->encode(random_bytes(16));
 
@@ -77,7 +77,8 @@ class AuthService
 		$payload = [
 			"jti" => $jti,
 			"iat" => $now->getTimeStamp(),
-			"nbf" => $future->getTimeStamp()
+			"nbf" => $now->getTimeStamp()
+//			"nbf" => $future->getTimeStamp()
 		];
 
 		return JWT::encode($payload, $secret, "HS256");
