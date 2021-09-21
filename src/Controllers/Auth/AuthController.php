@@ -23,6 +23,9 @@ class AuthController
 		$this->validator = $validator;
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function signIn(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
 	{
 		$result = [ 'success' => true ];
@@ -47,6 +50,9 @@ class AuthController
 			->withStatus($status);
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function signUp(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
 	{
 		// Collect input from the HTTP request
@@ -54,12 +60,15 @@ class AuthController
 
 		$user = $this->service->create($data);
 
-		$this->service->attempt($data['email'], $user->password);
+		$auth = $this->service->attempt($data['email'], $user->password);
 
 		$response->getBody()->write(json_encode([
-			'success' => !empty($user)
+			'success' => !empty($user),
+			'userId' => $auth['id'],
+			'token' => $this->service->getToken()
 		]));
-		return $response->withHeader('Content-Type', 'application/json');
+		return $response->withHeader('Content-Type', 'application/json')
+			->withStatus(200);
 	}
 
 	public function signOut($request, $response)
