@@ -68,7 +68,7 @@ class AuthService
 	public function getToken(): string
 	{
 		$now = new DateTime();
-		$future = new DateTime("now +2 hours");
+		$future = new DateTime("now +1 hours");
 //		$jti = Base62::encode(random_bytes(16));
 		$jti = (new Base62())->encode(random_bytes(16));
 
@@ -77,7 +77,8 @@ class AuthService
 		$payload = [
 			"jti" => $jti,
 			"iat" => $now->getTimeStamp(),
-			"nbf" => $now->getTimeStamp()
+			"nbf" => $now->getTimeStamp(),
+			"exp" => $future->getTimestamp()
 //			"nbf" => $future->getTimeStamp()
 		];
 
