@@ -30,10 +30,8 @@ class AuthController
 
 		// Collect input from the HTTP request
 		$data = (array)$request->getParsedBody();
-//		$this->validator->validate($data, [
-//			'email' => v::notEmpty()->noWhitespace()
-//		]);
-		$auth = $this->service->attempt($data['email'], 'bonjour');
+
+		$auth = $this->service->attempt($data['email'], $data['password']);
 
 		if (!$auth) {
 			$result['message'] = 'Bad Credentials';
